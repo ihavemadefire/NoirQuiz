@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import timedelta
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,10 +26,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'movies',
+    'rest_framework',
+    'corsheaders',
+    'rest_framework_simplejwt.token_blacklist'
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -37,7 +44,25 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Adjust as needed
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Adjust as needed
+    'ROTATE_REFRESH_TOKENS': True,                  # Issue a new refresh token on use
+    'BLACKLIST_AFTER_ROTATION': True,               # Blacklist old tokens after refresh
+    'AUTH_HEADER_TYPES': ('Bearer',),               # Token type prefix in the Authorization header
+    'USER_ID_FIELD': 'email',
+    'USER_ID_CLAIM': 'email',  # Include email in JWT payload
+
+}
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
