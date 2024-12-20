@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'movies',
     'rest_framework',
     'corsheaders',
-    'rest_framework_simplejwt.token_blacklist'
+    'rest_framework_simplejwt.token_blacklist',
+    'quizes'
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
